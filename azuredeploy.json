@@ -1,0 +1,124 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "site_name": {
+      "defaultValue": "opener-ner",
+      "type": "string"
+    },
+    "appserviceplan_size": {
+      "defaultValue": "S2",
+      "type": "string",
+      "allowedValues": [
+        "S1",
+        "S2",
+        "S3"
+      ]
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "appserviceplan_name": "[concat(parameters('site_name'), '-plan')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "[parameters('appserviceplan_size')]",
+        "tier": "Standard",
+        "size": "[parameters('appserviceplan_size')]",
+        "family": "S",
+        "capacity": 1
+      },
+      "kind": "linux",
+      "name": "[variables('appserviceplan_name')]",
+      "apiVersion": "2016-09-01",
+      "location": "[variables('location')]",
+      "properties": {
+        "workerSizeId": 0,
+        "reserved": true,
+        "hostingEnvironment": ""
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "app,linux",
+      "name": "[parameters('site_name')]",
+      "apiVersion": "2016-08-01",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('appserviceplan_name'))]"
+      ],
+      "tags": {},
+      "scale": null,
+      "properties": {
+        "name": "[parameters('site_name')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appserviceplan_name'))]",
+        "httpLoggingEnabled": true,
+        "logsDirectorySizeLimit": 35
+      },
+      "resources": [
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2016-08-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('site_name'))]"
+          ],
+          "tags": {
+            "displayName": "appSettings"
+          },
+          "properties": {
+            "DOCKER_CUSTOM_IMAGE_NAME": "prananth/newspaper3k-docker:latest",
+            "WEBSITES_ENABLE_APP_SERVICE_STORAGE": "false"
+          }
+        },
+        {
+          "name": "logs",
+          "type": "config",
+          "apiVersion": "2016-08-01",
+          "tags": {},
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('site_name'))]"
+          ],
+          "properties": {
+            "applicationLogs": {
+              "fileSystem": {
+                "level": "Off"
+              },
+              "azureTableStorage": {
+                "level": "Off",
+                "sasUrl": null
+              },
+              "azureBlobStorage": {
+                "level": "Off",
+                "sasUrl": null,
+                "retentionInDays": null
+              }
+            },
+            "httpLogs": {
+              "fileSystem": {
+                "retentionInMb": 35,
+                "retentionInDays": 7,
+                "enabled": true
+              },
+              "azureBlobStorage": {
+                "sasUrl": null,
+                "retentionInDays": 7,
+                "enabled": false
+              }
+            },
+            "failedRequestsTracing": {
+              "enabled": false
+            },
+            "detailedErrorMessages": {
+              "enabled": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {}
+}
