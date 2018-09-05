@@ -11,13 +11,16 @@ az account set --subscription SUBSCRIPTION_ID
 
 az container create --resource-group CloudPaperTest --name cloudjournocontainer --image prananth/newspaper3k-docker --dns-name-label cloudjourno --ports 5000
 
+#### Finding DNS Name of the service deployed
+
 az container show --resource-group CloudPaperTest --name cloudjournocontainer --query "{FQDN:ipAddress.fqdn}" --out table
 
 ## Access using FQDN
 
 BASE URL: 
 
-http://<dnsname>:westus2.azurecontainer.io:5000
+Substitute deployment DNS Name in the URL: http://{dnsname}:westus2.azurecontainer.io:5000
+
 Eg: cloudjourno.westus2.azurecontainer.io 
 
 ## API's and Sample Usage
