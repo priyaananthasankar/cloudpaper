@@ -26,7 +26,7 @@ For more details on how newspaper3k works: https://github.com/codelucas/newspape
 
 ## article/html -  Get html page from link
 
-curl -X POST http://<dnsname>:westus2.azurecontainer.io:5000/article/html -H "Content-Type: application/json" 
+curl -X POST http://{dnsname}:westus2.azurecontainer.io:5000/article/html -H "Content-Type: application/json" 
 -d '{"article" : "https://www.newyorker.com/magazine/2018/09/10/is-education-a-fundamental-right"}'
 
 ## article/text - Get all the text information from the link
