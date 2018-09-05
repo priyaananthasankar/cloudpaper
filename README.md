@@ -59,7 +59,7 @@ curl -X POST http://{dnsname}:westus2.azurecontainer.io:5000/article/keywords -H
 curl -X POST http://{dnsname}:westus2.azurecontainer.io:5000/article/summary -H "Content-Type: application/json" 
 -d '{"article" : "https://www.newyorker.com/magazine/2018/09/10/is-education-a-fundamental-right"}'
 
-### /newspaper/article_urls
+### newspaper/article_urls
 
 curl -X POST http://{dnsname}:westus2.azurecontainer.io:5000/newspaper/article_urls -H "Content-Type: application/json" 
 -d '{"newspaper" : "https://www.cnn.com" , "language" : "en"}'
