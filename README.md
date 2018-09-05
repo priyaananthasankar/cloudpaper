@@ -1,9 +1,12 @@
 # cloudpaper
+
+## The Easy Way: Deploy with 1-click
+
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
 Dockerised Azure Deployable version of newspaper3k python app: https://github.com/codelucas/newspaper 
 
-## Deploy using Azure CLI
+## The Hard Way: Deploy using Azure CLI
 
 az login
 
