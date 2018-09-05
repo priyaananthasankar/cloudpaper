@@ -19,7 +19,7 @@ az container show --resource-group CloudPaperTest --name cloudjournocontainer --
 
 Substitute your deployment DNS Name in below URL: 
 
-http://{dnsname}:westus2.azurecontainer.io:5000
+http://**{dnsname}**:westus2.azurecontainer.io:5000
 
 Eg: cloudjourno.westus2.azurecontainer.io 
 
